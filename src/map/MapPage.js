@@ -1,38 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
-
-const startLocation = {
-  lat: 38.7223,
-  lng: -9.1393,
-  zoom: 12,
-};
-
-const communityData = [
-  {
-    lat: startLocation.lat,
-    lng: startLocation.lng,
-    globalName: "Crypto Nomads",
-    localName: "CN Lisbon",
-    description: "CN is a club",
-    color: "orange",
-  },
-  {
-    lat: startLocation.lat + 0.01,
-    lng: startLocation.lng,
-    globalName: "HER DAO",
-    localName: "HER DAO Europe",
-    description: "her dao is a club",
-    color: "blue",
-  },
-  {
-    lat: startLocation.lat,
-    lng: startLocation.lng + 0.01,
-    globalName: "EthGlobal",
-    localName: "Eth Lisbon",
-    description: "test",
-    color: "green",
-  },
-];
+import { lisbonStartLocation, lisbonCommunityData } from "./LisbonMapData";
 
 const convertDataObjToMapMarker = ({
   lat,
@@ -56,10 +24,10 @@ const convertDataObjToMapMarker = ({
 });
 
 export default function MapPage({
-  inLat = startLocation.lat,
-  inLng = startLocation.lng,
-  inZoom = startLocation.zoom,
-  mapData = communityData,
+  inLat = lisbonStartLocation.lat,
+  inLng = lisbonStartLocation.lng,
+  inZoom = lisbonStartLocation.zoom,
+  mapData = lisbonCommunityData,
 }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -84,20 +52,29 @@ export default function MapPage({
       features: mapData.map((c) => convertDataObjToMapMarker(c)),
     };
 
+    const markerPopupUiJsx = (localName, globalName) => `
+      <div>
+        <h3>
+          <strong>${localName}</strong>
+        </h3>
+        <h4>a ${globalName} community</h4>
+      </div>
+    `;
+
+    // iterate over markers and add them to the map
     for (const feature of markers.features) {
-      const marker = new mapboxgl.Marker({
+      new mapboxgl.Marker({
         color: feature.properties.color || "black",
         draggable: true,
       })
         .setLngLat(feature.geometry.coordinates)
         .setPopup(
-          new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(
-              `<div>
-                <h3><strong>${feature.properties.localCommunityName}</strong></h3>
-                <h4>a ${feature.properties.globalCommunityName} community</h4>
-              </div>`
+          new mapboxgl.Popup({ offset: 25 }).setHTML(
+            markerPopupUiJsx(
+              feature.properties.localCommunityName,
+              feature.properties.globalCommunityName
             )
+          )
         )
         .addTo(map.current);
     }
@@ -111,8 +88,6 @@ export default function MapPage({
 
   return (
     <div>
-      <h1>Dynamic location</h1>
-
       <div ref={mapContainer} className="map-container">
         <div className="sidebar">
           Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
