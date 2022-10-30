@@ -1,5 +1,5 @@
 .map-container {
-    height: 400px;
+    height: 80vh;
 }
 
 .sidebar {
@@ -13,4 +13,25 @@
     left: 0;
     margin: 12px;
     border-radius: 4px;
+
+}
+
+.button-add-marker {
+    background-color: rgba(35, 55, 75, 0.9) !important;
+    font-size: 12px !important;
+    border-radius: 4px;
+    color: #fff;
+    padding: 6px 12px;
+    margin: 12px;
+    font-family: monospace;
+    position: absolute;
+    top: 0;
+    right: 0;
+    float: right;
+    z-index: 1;
+}
+
+.button-save-community {
+    color: black;
+    font-size: 14px;
 }

@@ -147,10 +147,10 @@ const App = () => {
         ) : (
           <div>
             <Button onClick={() => handleLogin()}>Login with NEAR</Button>
-            <MapPage />
           </div>
         )}
       </Container>
+      <MapPage />
     </section>
   );
 };
