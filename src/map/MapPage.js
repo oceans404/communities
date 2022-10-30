@@ -14,7 +14,7 @@ const communityData = [
     globalName: "Crypto Nomads",
     localName: "CN Lisbon",
     description: "CN is a club",
-    color: "red",
+    color: "orange",
   },
   {
     lat: startLocation.lat + 0.01,
@@ -30,7 +30,7 @@ const communityData = [
     globalName: "EthGlobal",
     localName: "Eth Lisbon",
     description: "test",
-    color: "red",
+    color: "green",
   },
 ];
 
@@ -55,15 +55,11 @@ const convertDataObjToMapMarker = ({
   },
 });
 
-const markers = {
-  type: "FeatureCollection",
-  features: communityData.map((c) => convertDataObjToMapMarker(c)),
-};
-
 export default function MapPage({
   inLat = startLocation.lat,
   inLng = startLocation.lng,
   inZoom = startLocation.zoom,
+  mapData = communityData,
 }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -82,6 +78,11 @@ export default function MapPage({
       center: [lng, lat],
       zoom: zoom,
     });
+
+    const markers = {
+      type: "FeatureCollection",
+      features: mapData.map((c) => convertDataObjToMapMarker(c)),
+    };
 
     for (const feature of markers.features) {
       const marker = new mapboxgl.Marker({
