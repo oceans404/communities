@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { connect, WalletConnection, utils, Contract } from 'near-api-js';
-import { getConfig } from './config';
+import React, { useEffect, useState } from "react";
+import { connect, WalletConnection, utils, Contract } from "near-api-js";
+import { Container, Button } from "@chakra-ui/react";
+
+import { getConfig } from "./config";
 
 const {
   format: { formatNearAmount },
@@ -11,7 +13,7 @@ const App = () => {
   const [contract, setContract] = useState(null);
   const [counter, setCounter] = useState(0);
   const [deposit, setDeposit] = useState(0);
-  const [balance, setBalance] = useState('');
+  const [balance, setBalance] = useState("");
 
   // Establish a connection to the NEAR blockchain on component mount
   useEffect(() => {
@@ -22,12 +24,12 @@ const App = () => {
   useEffect(() => {
     if (wallet) {
       setContract(
-        new Contract(wallet.account(), 'counter.testnet', {
-          viewMethods: ['getCounter'],
+        new Contract(wallet.account(), "counter.testnet", {
+          viewMethods: ["getCounter"],
           changeMethods: [
-            'resetCounter',
-            'incrementCounter',
-            'decrementCounter',
+            "resetCounter",
+            "incrementCounter",
+            "decrementCounter",
           ],
         })
       );
@@ -58,12 +60,12 @@ const App = () => {
   // Handle the sign in call by requesting a sign in through the NEAR Wallet
   const handleLogin = () => {
     wallet.requestSignIn({
-      contractId: 'counter.testnet',
+      contractId: "counter.testnet",
       methodNames: [
-        'resetCounter',
-        'incrementCounter',
-        'decrementCounter',
-        'getCounter',
+        "resetCounter",
+        "incrementCounter",
+        "decrementCounter",
+        "getCounter",
       ],
     });
   };
@@ -102,43 +104,51 @@ const App = () => {
 
   return (
     <section>
-      <h1>🎉 Congrats on starting your NEAR journey in React! 🎉</h1>
-      {/* Only show the sign in button when the user is not signed in */}
-      {isSignedIn ? (
-        <div>
-          {/* We can get the account id of the currently signed in user through the wallet */}
-          <div>Hi, {wallet.getAccountId()}!</div>
-          <p>
-            Your account ballance is{' '}
-            {/* The balance will be retrieved in yoctoNEAR so we have to format it to a NEAR amount */}
-            <strong>{formatNearAmount(balance, 4)}</strong>
-          </p>
-          <p>
-            The current value of the counter is: <strong>{counter}</strong>
-          </p>
-          <label htmlFor="deposit">
-            <span>Deposit value (in yoctoNEAR): </span>
-            <input
-              id="deposit"
-              type="number"
-              min={1}
-              value={deposit}
-              onChange={({ target: { value } }) => setDeposit(parseInt(value))}
-            />
-          </label>
-          <div
-            style={{ display: 'flex', flexDirection: 'column', width: '50%' }}
-          >
-            <button onClick={() => handleReset()}>Reset Counter</button>
-            <button onClick={() => handleIncrement()}>Increment counter</button>
-            <button onClick={() => handleDecrement()}>Decrement counter</button>
+      <Container>
+        <h1>🎉 Congrats on starting your NEAR journey in React! 🎉</h1>
+        {/* Only show the sign in button when the user is not signed in */}
+        {isSignedIn ? (
+          <div>
+            {/* We can get the account id of the currently signed in user through the wallet */}
+            <div>Hi, {wallet.getAccountId()}!</div>
+            <p>
+              Your account ballance is{" "}
+              {/* The balance will be retrieved in yoctoNEAR so we have to format it to a NEAR amount */}
+              <strong>{formatNearAmount(balance, 4)}</strong>
+            </p>
+            <p>
+              The current value of the counter is: <strong>{counter}</strong>
+            </p>
+            <label htmlFor="deposit">
+              <span>Deposit value (in yoctoNEAR): </span>
+              <input
+                id="deposit"
+                type="number"
+                min={1}
+                value={deposit}
+                onChange={({ target: { value } }) =>
+                  setDeposit(parseInt(value))
+                }
+              />
+            </label>
+            <div
+              style={{ display: "flex", flexDirection: "column", width: "50%" }}
+            >
+              <button onClick={() => handleReset()}>Reset Counter</button>
+              <button onClick={() => handleIncrement()}>
+                Increment counter
+              </button>
+              <button onClick={() => handleDecrement()}>
+                Decrement counter
+              </button>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div>
-          <button onClick={() => handleLogin()}>Login with NEAR</button>
-        </div>
-      )}
+        ) : (
+          <div>
+            <Button onClick={() => handleLogin()}>Login with NEAR</Button>
+          </div>
+        )}
+      </Container>
     </section>
   );
 };

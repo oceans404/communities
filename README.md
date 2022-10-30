@@ -1,4 +1,15 @@
-# Getting Started with Create React App NEAR js template
+# Create global communities with local chapters
+
+
+## Setup
+
+- clone the repo
+- install dependencies
+- `npm start` to run locally
+- Create and fund a [NEAR wallet](https://app.mynearwallet.com/profile)
+
+
+## cra-template-near-js
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) from the [cra-template-near-js](https://github.com/NEAR-Edu/near/tree/main/packages/cra-template-js) template.
 
