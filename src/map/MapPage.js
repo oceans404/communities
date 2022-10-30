@@ -1,14 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 
-export default function MapPage() {
+const hermosaBeachLocationData = {
+  lat: 33.8622,
+  lng: -118.3995,
+  zoom: 13,
+};
+
+export default function MapPage({
+  inLat = hermosaBeachLocationData.lat,
+  inLng = hermosaBeachLocationData.lng,
+  inZoom = hermosaBeachLocationData.zoom,
+}) {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const hermosaBeachLng = -118.3995;
-  const hermosaBeachLat = 33.8622;
-  const [lng, setLng] = useState(hermosaBeachLng);
-  const [lat, setLat] = useState(hermosaBeachLat);
-  const [zoom, setZoom] = useState(13);
+  const [lng, setLng] = useState(inLng);
+  const [lat, setLat] = useState(inLat);
+  const [zoom, setZoom] = useState(inZoom);
 
   const key = process.env.REACT_APP_MAPBOX_KEY;
   mapboxgl.accessToken = key;
@@ -21,11 +29,22 @@ export default function MapPage() {
       center: [lng, lat],
       zoom: zoom,
     });
+
+    map.current.on("move", () => {
+      setLng(map.current.getCenter().lng.toFixed(4));
+      setLat(map.current.getCenter().lat.toFixed(4));
+      setZoom(map.current.getZoom().toFixed(2));
+    });
   });
 
   return (
     <div>
-      <h1>map goes here!</h1>
+      <h1>Dynamic location</h1>
+      <ul>
+        <li>Lat: {lat}</li>
+        <li>Lng: {lng}</li>
+        <li>Zoom: {zoom}</li>
+      </ul>
       <div ref={mapContainer} className="map-container" />
     </div>
   );
