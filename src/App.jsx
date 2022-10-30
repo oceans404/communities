@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect, WalletConnection, utils, Contract } from "near-api-js";
 import { Container, Button } from "@chakra-ui/react";
+import MapPage from "./map/MapPage";
 
 import { getConfig } from "./config";
 
@@ -146,6 +147,7 @@ const App = () => {
         ) : (
           <div>
             <Button onClick={() => handleLogin()}>Login with NEAR</Button>
+            <MapPage />
           </div>
         )}
       </Container>

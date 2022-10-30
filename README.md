@@ -5,8 +5,11 @@
 
 - clone the repo
 - install dependencies
+- Copy the .sample.env file env variables into a .env file `touch .env`
+    - Create and set a Mapbox API key: REACT_APP_MAPBOX_KEY
 - `npm start` to run locally
 - Create and fund a [NEAR wallet](https://app.mynearwallet.com/profile)
+
 
 
 ## cra-template-near-js
