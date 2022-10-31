@@ -33,5 +33,6 @@
 
 .button-save-community {
     color: black;
-    font-size: 14px;
+    font-size: 12px !important;
+    margin-bottom: 10px !important;
 }

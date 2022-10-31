@@ -26,15 +26,15 @@ const convertDataObjToMapMarker = ({
   },
 });
 
-const markerPopupUiJsx = (localName, globalName, tags) => `
-      <div>
-        <h3>
-          <strong>${localName}</strong>
-        </h3>
-        <h4>a ${globalName} community</h4>
-        <p>${tags.map((t) => `#${t}`).join(", ")}</p>
-      </div>
-    `;
+const markerPopupUiJsx = (localName, globalName, tags, otherHTML) => `
+  <div>
+    <h3>
+      <strong>${localName}</strong>
+    </h3>
+    <h4>a ${globalName} community</h4>
+    <p>${tags.map((t) => `#${t}`).join(", ")}</p>${otherHTML}
+  </div>
+`;
 
 export default function MapPage({
   inLat = lisbonStartLocation.lat,
@@ -78,7 +78,14 @@ export default function MapPage({
             markerPopupUiJsx(
               feature.properties.localCommunityName,
               feature.properties.globalCommunityName,
-              feature.properties.tags
+              feature.properties.tags,
+              `
+              <Link to='/${feature.properties.localCommunityName
+                .split(" ")
+                .join("-")}'>🔗 ${
+                feature.properties.localCommunityName
+              } page</Link>
+            `
             )
           )
         )
@@ -147,7 +154,7 @@ export default function MapPage({
               </Stack>
             </div>
           ) : (
-            "Add Point"
+            "Add Community"
           )}
         </button>
       </div>

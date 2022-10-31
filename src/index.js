@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { Buffer } from "buffer";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -10,7 +11,9 @@ global.Buffer = Buffer;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ChakraProvider>
-    <App />
-  </ChakraProvider>
+  <BrowserRouter>
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
+  </BrowserRouter>
 );
